@@ -1,8 +1,17 @@
-import { useState} from 'react';  
+import { useEffect,useState } from 'react';  
+import api from '#services/api.js';
 
 export default function Home() {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState();
 
+    useEffect(()=> {
+        api.get("/produtos")
+        .then((response) => {
+            setData(response.data) ;
+        })
+    }, [])
+
+    if(!data) return null
 
     function ProdutoCard({ nome, preco }) {
         return (
